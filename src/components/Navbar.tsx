@@ -110,7 +110,21 @@ export default function Navbar() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={() => setMobileOpen(false)}
+                    //onClick={() => setMobileOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const targetId = link.href.replace('#', '');
+                      setMobileOpen(false);
+        setTimeout(() => {
+            const element = document.getElementById(targetId);
+            if (element) {
+              element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }
+          }, 250);
+      }}
                     className="focus-ring block rounded-lg px-3 py-2.5 text-base font-medium text-ink hover:bg-ink/5 dark:text-mist dark:hover:bg-mist/10"
                   >
                     {link.label}
