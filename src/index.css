@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode (Tailwind v4 defaults to media-query strategy) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --color-accent: #7c5cff;
+  --color-accent-2: #22d3ee;
+  --color-accent-3: #ec4899;
+
+  --color-ink: #1d1d1f;
+  --color-ink-muted: #6e6e73;
+  --color-paper: #fbfbfd;
+  --color-paper-elevated: #ffffff;
+
+  --color-void: #050507;
+  --color-void-elevated: #0d0d11;
+  --color-mist: #f5f5f7;
+  --color-mist-muted: #a1a1a6;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-gradient: gradient-shift 8s ease infinite;
+  --animate-blob: blob-move 14s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3.5s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-16px); }
+  }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes blob-move {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(4%, 6%) scale(1.08); }
+    66% { transform: translate(-4%, -3%) scale(0.95); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  @apply bg-paper text-ink dark:bg-void dark:text-mist antialiased;
+  font-family: var(--font-sans);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  color: inherit;
+}
+
+/* Custom scrollbar — subtle, premium */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-ink-muted) 35%, transparent);
+  border-radius: 9999px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-mist-muted) 35%, transparent);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-accent),
+    var(--color-accent-3),
+    var(--color-accent-2),
+    var(--color-accent)
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.glow-shadow {
+  box-shadow: 0 8px 30px -8px color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+.glow-border {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent) !important;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--color-paper-elevated) 65%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+html.dark .glass {
+  background: color-mix(in srgb, var(--color-void-elevated) 55%, transparent);
+}
+
+.focus-ring {
+  @apply outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper dark:focus-visible:ring-offset-void;
+}
